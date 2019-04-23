@@ -1,0 +1,24 @@
+<style>
+    .pagination-ui-hidden{
+        display: none;
+    }
+    .pagination-ui-tabIndex{
+        display: flex;
+    }
+    .pagination-ui-tabIndex .buttom{
+        padding: 5px;
+        background-color: blue;
+        opacity: 1;
+        cursor: pointer;
+        margin: 1px;
+        color: white;
+        border-radius: 2px;
+    }
+    .pagination-ui-tabIndex .buttom.current{
+        background-color: red!important;
+
+    }
+    .pagination-ui-tabIndex .buttom:hover{
+        opacity: 0.8;
+    }
+</style>
