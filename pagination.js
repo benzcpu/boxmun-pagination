@@ -6,11 +6,18 @@ function paginationItem(object){
     var itemObject= $('.'+object.classGroupItem).find('.'+object.classItem);
 
     $(itemObject).addClass('pagination-ui-hidden');
+    if(window.screen.width<=812 && object.mobile){
+        object.showItemInpage= object.mobile.showItemInpage;
+        object.tabIndexMax= object.mobile.showItemInpage;
+    }
     $.each(itemObject,function(idx,item){
         if(idx<object.showItemInpage){
             $(item).removeClass('pagination-ui-hidden');
         }
     });
+
+
+
     paginationTabIndex(object);
 }
 function paginationTabIndex(object){
