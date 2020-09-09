@@ -1,15 +1,41 @@
 
 
 
+function filter_pagination(value, inputID,field_search,fuc="") {
+
+    var input, filter, ul, li, a, i, txtValue;
+    filter = value.toUpperCase();
+    li = $(inputID + ' '+field_search);
+    for (i = 0; i < li.length; i++) {
+        a = li[i];
+        txtValue = a.textContent || a.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            //$(li[i]).fadeIn();
+            li[i].style.display = "";
+            $(li[i]).removeClass('pagination-search-none');
+            $(li[i]).removeClass('pagination-ui-hidden');
+        } else {
+            //$(li[i]).fadeIn();
+            li[i].style.display = "none";
+            $(li[i]).addClass('pagination-search-none');
+        }
+    }
+    if(fuc!=""){
+        eval(fuc)
+    }
+    // genPagination();
+}
+
 function paginationItem(object){
     var groupObject= $('.'+object.classGroupItem);
-    var itemObject= $('.'+object.classGroupItem).find('.'+object.classItem);
+    var itemObject= $('.'+object.classGroupItem).find('.'+object.classItem).not('.pagination-search-none');
 
     $(itemObject).addClass('pagination-ui-hidden');
     if(window.screen.width<=812 && object.mobile){
         object.showItemInpage= object.mobile.showItemInpage;
         object.tabIndexMax= object.mobile.showItemInpage;
     }
+
     $.each(itemObject,function(idx,item){
         if(idx<object.showItemInpage){
             $(item).removeClass('pagination-ui-hidden');
@@ -22,43 +48,50 @@ function paginationItem(object){
 }
 function paginationTabIndex(object){
     var groupObject= $('.'+object.classGroupItem);
-    var itemObject= $('.'+object.classGroupItem).find('.'+object.classItem);
+    var itemObject= $('.'+object.classGroupItem).find('.'+object.classItem).not('.pagination-search-none');
+
     var showItemInpage=object.showItemInpage;
     var alltabIndex=Math.ceil( parseInt(itemObject.length)/ parseInt(showItemInpage));
 
     if(alltabIndex!=1){
 
 
-    var html='<div class="pagination-ui-tabIndex" data-alltabIndex="'+alltabIndex+'" data-group="'+object.classGroupItem+'" data-showItem="'+object.showItemInpage+'">';
-    if(object.tabIndexMax){
-        html= html+'<div class="buttom pagination-ui-click frist" data-tabIndexMax="'+object.tabIndexMax+'"  data-group="'+object.classGroupItem+'" data-item="'+object.classItem+'" data-index="1"><<</div>';
-        html= html+'<div class="buttom pagination-ui-click back" data-tabIndexMax="'+object.tabIndexMax+'"  data-group="'+object.classGroupItem+'" data-item="'+object.classItem+'" data-index="1"><</div>';
-    }else{
-        html= html+'<div class="buttom pagination-ui-click frist" data-group="'+object.classGroupItem+'" data-item="'+object.classItem+'" data-index="1"><<</div>';
-        html= html+'<div class="buttom pagination-ui-click back" data-group="'+object.classGroupItem+'" data-item="'+object.classItem+'" data-index="1"><</div>';
-    }
-    if(object.tabIndexMax){
-        for(var i=1;i<=alltabIndex;i++){
-            if(object.tabIndexMax<i){
-                html= html+'<div class="buttom pagination-ui-click pagination-ui-number-click pagination-ui-hidden" data-tabIndexMax="'+object.tabIndexMax+'"  data-group="'+object.classGroupItem+'" data-item="'+object.classItem+'" data-index="'+i+'">'+i+'</div>';
-            }else{
-                html= html+'<div class="buttom pagination-ui-click pagination-ui-number-click " data-tabIndexMax="'+object.tabIndexMax+'"  data-group="'+object.classGroupItem+'" data-item="'+object.classItem+'" data-index="'+i+'">'+i+'</div>';
+        var html='<div class="pagination-ui-tabIndex" data-alltabIndex="'+alltabIndex+'" data-group="'+object.classGroupItem+'" data-showItem="'+object.showItemInpage+'">';
+        if(object.tabIndexMax){
+            html= html+'<div class="buttom pagination-ui-click frist" data-tabIndexMax="'+object.tabIndexMax+'"  data-group="'+object.classGroupItem+'" data-item="'+object.classItem+'" data-index="1"><<</div>';
+            html= html+'<div class="buttom pagination-ui-click back" data-tabIndexMax="'+object.tabIndexMax+'"  data-group="'+object.classGroupItem+'" data-item="'+object.classItem+'" data-index="1"><</div>';
+        }else{
+            html= html+'<div class="buttom pagination-ui-click frist" data-group="'+object.classGroupItem+'" data-item="'+object.classItem+'" data-index="1"><<</div>';
+            html= html+'<div class="buttom pagination-ui-click back" data-group="'+object.classGroupItem+'" data-item="'+object.classItem+'" data-index="1"><</div>';
+        }
+        if(object.tabIndexMax){
+            var current='';
+            for(var i=1;i<=alltabIndex;i++){
+                if(object.tabIndexMax<i){
+                    html= html+'<div class="buttom pagination-ui-click pagination-ui-number-click pagination-ui-hidden" data-tabIndexMax="'+object.tabIndexMax+'"  data-group="'+object.classGroupItem+'" data-item="'+object.classItem+'" data-index="'+i+'">'+i+'</div>';
+                }else{
+                    if(i==1){
+                        current='current';
+                    }else{
+                        current="";
+                    }
+                    html= html+'<div class="buttom pagination-ui-click pagination-ui-number-click '+current+' " data-tabIndexMax="'+object.tabIndexMax+'"  data-group="'+object.classGroupItem+'" data-item="'+object.classItem+'" data-index="'+i+'">'+i+'</div>';
+                }
+            }
+        }else{
+            for(var i=1;i<=alltabIndex;i++){
+                html= html+'<div class="buttom pagination-ui-click pagination-ui-number-click" data-group="'+object.classGroupItem+'" data-item="'+object.classItem+'" data-index="'+i+'">'+i+'</div>';
             }
         }
-    }else{
-        for(var i=1;i<=alltabIndex;i++){
-            html= html+'<div class="buttom pagination-ui-click pagination-ui-number-click" data-group="'+object.classGroupItem+'" data-item="'+object.classItem+'" data-index="'+i+'">'+i+'</div>';
+        if(object.tabIndexMax){
+            html= html+'<div class="buttom pagination-ui-click next" data-tabIndexMax="'+object.tabIndexMax+'"  data-group="'+object.classGroupItem+'" data-item="'+object.classItem+'" data-index="2">></div>';
+            html= html+'<div class="buttom pagination-ui-click last" data-tabIndexMax="'+object.tabIndexMax+'"  data-group="'+object.classGroupItem+'" data-item="'+object.classItem+'" data-index="'+alltabIndex+'">>></div>';
+        }else{
+            html= html+'<div class="buttom pagination-ui-click next" data-group="'+object.classGroupItem+'" data-item="'+object.classItem+'" data-index="2">></div>';
+            html= html+'<div class="buttom pagination-ui-click last" data-group="'+object.classGroupItem+'" data-item="'+object.classItem+'" data-index="'+alltabIndex+'">>></div>';
         }
-    }
-    if(object.tabIndexMax){
-        html= html+'<div class="buttom pagination-ui-click next" data-tabIndexMax="'+object.tabIndexMax+'"  data-group="'+object.classGroupItem+'" data-item="'+object.classItem+'" data-index="2">></div>';
-        html= html+'<div class="buttom pagination-ui-click last" data-tabIndexMax="'+object.tabIndexMax+'"  data-group="'+object.classGroupItem+'" data-item="'+object.classItem+'" data-index="'+alltabIndex+'">>></div>';
-    }else{
-        html= html+'<div class="buttom pagination-ui-click next" data-group="'+object.classGroupItem+'" data-item="'+object.classItem+'" data-index="2">></div>';
-        html= html+'<div class="buttom pagination-ui-click last" data-group="'+object.classGroupItem+'" data-item="'+object.classItem+'" data-index="'+alltabIndex+'">>></div>';
-    }
 
-    html= html+'</div>';
+        html= html+'</div>';
     }
     $(".pagination-ui-tabIndex[data-group='"+object.classGroupItem+"']").remove();
     $(groupObject).append(html);
@@ -67,7 +100,8 @@ $(document).on('click','.pagination-ui-click',function(){
 
     var self=$(this);
     var groupObject= $('.'+self.attr('data-group'));
-    var itemObject= $('.'+self.attr('data-group')).find('.'+self.attr('data-item')) ;
+    var itemObject= $($('.'+self.attr('data-group')).find('.'+self.attr('data-item'))).not('.pagination-search-none') ;
+
     var indexNow=parseInt(self.attr('data-index'));
     var tabIndexMax= self.attr('data-tabindexmax');
     var itemTabIndex=$(".pagination-ui-number-click[data-group='"+self.attr('data-group')+"']");

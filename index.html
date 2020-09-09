@@ -109,28 +109,41 @@
 </div>
 
 
-
+<br/>
 <div class="pagination-group3" >
+    Search Pagination
+    <div>
+        <input type="text" id="text_search">
+    </div>
+
     <div style="display: flex">
 
-        <div class='pagination-item' data-index="1">
+        <div class='pagination-item'  data-name="xxxx1">
             <div>xxxx1</div>
             <img width="150pk" src="https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="">
         </div>
 
-        <div class='pagination-item' data-index="2">
+        <div class='pagination-item'   data-name="xxxx2">
             <div>xxxx2</div>
             <img width="150pk" src="https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="">
         </div>
-        <div class='pagination-item' data-index="3">
+        <div class='pagination-item'  data-name="xxxx3">
             <div>xxxx3</div>
             <img width="150pk" src="https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="">
         </div>
-        <div class='pagination-item' data-index="4">
+        <div class='pagination-item'    data-name="xxxx4">
             <div>xxxx4</div>
             <img width="150pk" src="https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="">
         </div>
 
+        <div class='pagination-item'  data-name="xxxx44">
+            <div>xxxx44</div>
+            <img width="150pk" src="https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="">
+        </div>
+        <div class='pagination-item'  data-name="xxxx444">
+            <div>xxxx444</div>
+            <img width="150pk" src="https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="">
+        </div>
     </div>
 </div>
 </body>
@@ -150,13 +163,19 @@
             tabIndexMax:'5',
         }
     });
-
-
+    genPagination();
+function genPagination() {
     paginationItem({
         classGroupItem:'pagination-group3',
         classItem:'pagination-item',
         showItemInpage:'2',
         tabIndexMax:'20'
     });
+}
+
+    $(document).on('keyup','#text_search',function(){
+        filter_pagination($(this).val(),'.pagination-group3','.pagination-item','genPagination()');
+
+    })
 
 </script>
