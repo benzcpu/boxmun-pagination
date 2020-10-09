@@ -20,15 +20,38 @@ function filter_pagination(value, inputID,field_search,fuc="") {
             $(li[i]).addClass('pagination-search-none');
         }
     }
-    if(fuc!=""){
-        eval(fuc)
-    }
+
+        if(fuc!=""){
+            eval(fuc)
+        }
+
+
     // genPagination();
 }
 
 function paginationItem(object){
     var groupObject= $('.'+object.classGroupItem);
-    var itemObject= $('.'+object.classGroupItem).find('.'+object.classItem).not('.pagination-search-none');
+    var itemObject= $('.'+object.classGroupItem).find('.'+object.classItem);
+    if(object.orderby){
+        if(object.orderby=="a-z"){
+            itemObject = $(itemObject).sort(function(a, b) {
+                return String.prototype.localeCompare.call($(a).data('name'), $(b).data('name'));
+            });
+        }else{
+            itemObject = $(itemObject).sort(function(b, a) {
+                return String.prototype.localeCompare.call($(a).data('name'), $(b).data('name'));
+            });
+        }
+        var parrent=$(itemObject[0]).parent();
+
+            $(parrent).attr({'data-order':object.orderby})
+            $(parrent).html("");
+            $(parrent).append(itemObject);
+
+          itemObject= $('.'+object.classGroupItem).find('.'+object.classItem).not('.pagination-search-none');
+    }else{
+        var itemObject= $('.'+object.classGroupItem).find('.'+object.classItem).not('.pagination-search-none');
+    }
 
     $(itemObject).addClass('pagination-ui-hidden');
     if(window.screen.width<=812 && object.mobile){
@@ -53,16 +76,16 @@ function paginationTabIndex(object){
     var showItemInpage=object.showItemInpage;
     var alltabIndex=Math.ceil( parseInt(itemObject.length)/ parseInt(showItemInpage));
 
-    if(alltabIndex!=1){
+    if(alltabIndex>1){
 
 
         var html='<div class="pagination-ui-tabIndex" data-alltabIndex="'+alltabIndex+'" data-group="'+object.classGroupItem+'" data-showItem="'+object.showItemInpage+'">';
         if(object.tabIndexMax){
-            html= html+'<div class="buttom pagination-ui-click frist" data-tabIndexMax="'+object.tabIndexMax+'"  data-group="'+object.classGroupItem+'" data-item="'+object.classItem+'" data-index="1"><<</div>';
-            html= html+'<div class="buttom pagination-ui-click back" data-tabIndexMax="'+object.tabIndexMax+'"  data-group="'+object.classGroupItem+'" data-item="'+object.classItem+'" data-index="1"><</div>';
+            html= html+'<div class="buttom pagination-ui-click frist disable" data-tabIndexMax="'+object.tabIndexMax+'"  data-group="'+object.classGroupItem+'" data-item="'+object.classItem+'" data-index="1"><<</div>';
+            html= html+'<div class="buttom pagination-ui-click back disable" data-tabIndexMax="'+object.tabIndexMax+'"  data-group="'+object.classGroupItem+'" data-item="'+object.classItem+'" data-index="1"><</div>';
         }else{
-            html= html+'<div class="buttom pagination-ui-click frist" data-group="'+object.classGroupItem+'" data-item="'+object.classItem+'" data-index="1"><<</div>';
-            html= html+'<div class="buttom pagination-ui-click back" data-group="'+object.classGroupItem+'" data-item="'+object.classItem+'" data-index="1"><</div>';
+            html= html+'<div class="buttom pagination-ui-click frist disable" data-group="'+object.classGroupItem+'" data-item="'+object.classItem+'" data-index="1"><<</div>';
+            html= html+'<div class="buttom pagination-ui-click back disable" data-group="'+object.classGroupItem+'" data-item="'+object.classItem+'" data-index="1"><</div>';
         }
         if(object.tabIndexMax){
             var current='';
@@ -103,14 +126,30 @@ $(document).on('click','.pagination-ui-click',function(){
     var itemObject= $($('.'+self.attr('data-group')).find('.'+self.attr('data-item'))).not('.pagination-search-none') ;
 
     var indexNow=parseInt(self.attr('data-index'));
-    var tabIndexMax= self.attr('data-tabindexmax');
+    var tabIndexMax= self.attr('data-tabIndexMax');
+
     var itemTabIndex=$(".pagination-ui-number-click[data-group='"+self.attr('data-group')+"']");
     var showItemInpage=parseInt($(".pagination-ui-tabIndex[data-group='"+self.attr('data-group')+"'").attr('data-showItem'));
     var alltabIndex=parseInt($(".pagination-ui-tabIndex[data-group='"+self.attr('data-group')+"'").attr('data-alltabIndex'));
     itemTabIndex.removeClass('current');
     $(".pagination-ui-number-click[data-group='"+self.attr('data-group')+"'][data-index='"+indexNow+"']").addClass('current');
     itemObject.addClass('pagination-ui-hidden');
-
+    if(indexNow==1){
+        $(groupObject).find('.pagination-ui-click.frist').addClass('disable');
+        $(groupObject).find('.pagination-ui-click.back').addClass('disable');
+        // pagination-ui-click last
+    }else{
+        $(groupObject).find('.pagination-ui-click.frist').removeClass('disable');
+        $(groupObject).find('.pagination-ui-click.back').removeClass('disable');
+    }
+    if(indexNow>=parseInt(alltabIndex)){
+        $(groupObject).find('.pagination-ui-click.last').addClass('disable');
+        $(groupObject).find('.pagination-ui-click.next').addClass('disable');
+        // pagination-ui-click last
+    }else{
+        $(groupObject).find('.pagination-ui-click.last').removeClass('disable');
+        $(groupObject).find('.pagination-ui-click.next').removeClass('disable');
+    }
     $.each(itemObject,function(idx,item){
         if(((indexNow*showItemInpage)-(showItemInpage-1))<=idx+1 && ((indexNow*showItemInpage))>=idx+1){
             $(item).removeClass('pagination-ui-hidden');
