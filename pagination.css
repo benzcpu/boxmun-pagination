@@ -18,6 +18,10 @@
         background-color: red!important;
 
     }
+    .pagination-ui-tabIndex .buttom.disable{
+        cursor: no-drop!important;
+        opacity: 0.7;
+    }
     .pagination-ui-tabIndex .buttom:hover{
         opacity: 0.8;
     }
