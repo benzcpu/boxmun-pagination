@@ -110,41 +110,80 @@
 
 
 <br/>
+
+<button onclick="addData()">add</button>
+
 <div class="pagination-group3" >
     Search Pagination
     <div>
         <input type="text" id="text_search">
     </div>
+    <div>
+        <select  id="text_order">
+            <option value="a-z">a-z</option>
+            <option value="z-a">z-a</option>
+        </select>
 
-    <div style="display: flex">
+        <div>
+            View
+            <select name="" id="per_page">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+        </select> per page &lt; <input type="number"> or <span>10</span></div>
+    </div>
 
-        <div class='pagination-item'  data-name="xxxx1">
-            <div>xxxx1</div>
-            <img width="150pk" src="https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="">
-        </div>
 
-        <div class='pagination-item'   data-name="xxxx2">
-            <div>xxxx2</div>
+    <div id="addData" style="display: flex;flex-wrap: wrap">
+        <div class='pagination-item'  data-name="1">
+            <div>1</div>
             <img width="150pk" src="https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="">
         </div>
-        <div class='pagination-item'  data-name="xxxx3">
-            <div>xxxx3</div>
+        <div class='pagination-item'  data-name="BEnz1">
+            <div>BEnz1</div>
             <img width="150pk" src="https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="">
         </div>
-        <div class='pagination-item'    data-name="xxxx4">
-            <div>xxxx4</div>
+        <div class='pagination-item'    data-name="benz1">
+            <div>benz1</div>
             <img width="150pk" src="https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="">
         </div>
-
-        <div class='pagination-item'  data-name="xxxx44">
-            <div>xxxx44</div>
+        <div class='pagination-item'   data-name="2">
+            <div>2</div>
             <img width="150pk" src="https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="">
         </div>
-        <div class='pagination-item'  data-name="xxxx444">
-            <div>xxxx444</div>
+        <div class='pagination-item'  data-name="A1">
+            <div>A1</div>
+            <img width="150pk" src="https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="">
+        </div>
+        <div class='pagination-item'  data-name="xxxx555">
+            <div>xxxx555</div>
+            <img width="150pk" src="https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="">
+        </div>
+        <div class='pagination-item'  data-name="xxxx666">
+            <div>xxxx666</div>
+            <img width="150pk" src="https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="">
+        </div>
+        <div class='pagination-item'  data-name="xxxx777">
+            <div>xxxx777</div>
+            <img width="150pk" src="https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="">
+        </div>
+        <div class='pagination-item'  data-name="xxxx888">
+            <div>xxxx888</div>
+            <img width="150pk" src="https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="">
+        </div>
+        <div class='pagination-item'  data-name="xxxx999">
+            <div>xxxx999</div>
+            <img width="150pk" src="https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="">
+        </div>
+        <div class='pagination-item'  data-name="Xxxx10">
+            <div>Xxxx10</div>
             <img width="150pk" src="https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="">
         </div>
     </div>
+
+
 </div>
 </body>
 
@@ -152,7 +191,14 @@
 </html>
 
 <script>
+    function addData(){
+             $('#addData').append('<div class=\'pagination-item\'  data-name="xxxx999">\n' +
+                 '            <div>xxxx999</div>\n' +
+                 '            <img width="150pk" src="https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="">\n' +
+                 '        </div>');
+        $('#text_search').keyup();
 
+    }
     paginationItem({
         classGroupItem:'pagination-group2',
         classItem:'pagination-item',
@@ -165,16 +211,31 @@
     });
     genPagination();
 function genPagination() {
+    var order_by=$('#text_order').val();
+    var per_page=$('#per_page').val();
     paginationItem({
         classGroupItem:'pagination-group3',
         classItem:'pagination-item',
-        showItemInpage:'2',
-        tabIndexMax:'20'
+        orderby:order_by,
+        showItemInpage:per_page,
+        tabIndexMax:'3'
     });
+    // paginationItem({
+    //     classGroupItem:'pagination-group3',
+    //     classItem:'pagination-item',
+    //     orderby:order_by,
+    //     showItemInpage:'2',
+    //     tabIndexMax:'20'
+    // });
 }
 
     $(document).on('keyup','#text_search',function(){
         filter_pagination($(this).val(),'.pagination-group3','.pagination-item','genPagination()');
+
+    })
+    $(document).on('change','#text_order,#per_page',function(){
+        $('#text_search').keyup();
+
 
     })
 
