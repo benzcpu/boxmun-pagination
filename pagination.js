@@ -8,7 +8,7 @@ function filter_pagination(value, inputID,field_search,fuc="") {
     li = $(inputID + ' '+field_search);
     for (i = 0; i < li.length; i++) {
         a = li[i];
-        txtValue = a.textContent || a.innerText;
+        txtValue = $(a).attr('data-name');
         if (txtValue.toUpperCase().indexOf(filter) > -1) {
             //$(li[i]).fadeIn();
             li[i].style.display = "";
