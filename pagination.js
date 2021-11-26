@@ -56,7 +56,7 @@ function paginationItem(object){
     $(itemObject).addClass('pagination-ui-hidden');
     if(window.screen.width<=812 && object.mobile){
         object.showItemInpage= object.mobile.showItemInpage;
-        object.tabIndexMax= object.mobile.showItemInpage;
+        object.tabIndexMax= object.mobile.tabIndexMax;
     }
 
     $.each(itemObject,function(idx,item){
